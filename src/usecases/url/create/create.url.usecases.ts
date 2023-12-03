@@ -1,11 +1,13 @@
+import { Injectable } from '@nestjs/common';
 import { Url } from 'src/domain/model/url';
-import { IUrlRepository } from 'src/domain/repositories/urlRepository.interface';
+import { IUrlRepository } from 'src/domain/repositories/url.repository.interface';
 import {
   InputCreateUrlDto,
   OutputCreateUrlDto,
 } from 'src/usecases/url/create/create.url.dto';
 
-export class createUrlUseCase {
+@Injectable()
+export class CreateUrlUseCase {
   constructor(private readonly urlRepository: IUrlRepository) {}
 
   readonly daysToExpire = 1;
@@ -22,6 +24,11 @@ export class createUrlUseCase {
     url.createdAt = now;
     url.updatedAt = now;
 
-    return this.urlRepository.insertOne(url);
+    await this.urlRepository.insertOne(url);
+
+    return {
+      expires,
+      shortcut: url.shortcut,
+    };
   }
 }

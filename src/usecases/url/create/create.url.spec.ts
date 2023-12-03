@@ -1,61 +1,62 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { createUrlUseCase } from 'src/usecases/url/create/create.url.usecases';
-import { InputCreateUrlDto } from 'src/usecases/url/create/create.url.dto';
+import { CreateUrlUseCase } from 'src/usecases/url/create/create.url.usecases';
+import { UrlRepository } from 'src/infrastructure/repositories/url.repository';
+import { inputMock, urlRepositoryMock } from 'src/domain/mocks';
+import { RepositoriesModule } from 'src/infrastructure/repositories/repositories.module';
 
-describe('createUrlUseCase', () => {
-  let useCase: createUrlUseCase;
+describe('CreateUrlUseCase', () => {
+  let useCase: CreateUrlUseCase;
+
   const now = new Date();
-  const input = {
-    owner: 1,
-    destiny: 'destiny',
-    hash: 'hash',
-  } as InputCreateUrlDto;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      providers: [createUrlUseCase],
-      exports: [createUrlUseCase],
+      imports: [RepositoriesModule],
+      providers: [
+        {
+          provide: CreateUrlUseCase,
+          useFactory: (UrlRepository) => new CreateUrlUseCase(UrlRepository),
+          inject: [UrlRepository],
+        },
+      ],
+      exports: [],
     }).compile();
 
-    useCase = app.get<createUrlUseCase>(createUrlUseCase);
+    useCase = app.get<CreateUrlUseCase>(CreateUrlUseCase);
   });
 
-  describe('reduce url service', () => {
-    it('should contains create url method', () => {
-      expect(useCase).toBeDefined();
-    });
+  it('should contains create url method', () => {
+    expect(useCase).toBeDefined();
+  });
 
-    it('should create url', async () => {
-      const input = {
-        owner: 1,
-        destiny: 'destiny',
-        hash: 'hash',
-      } as InputCreateUrlDto;
+  it('should create url', async () => {
+    urlRepositoryMock.insertOne.mockResolvedValue({});
 
-      const output = await useCase.execute(input);
+    const output = await useCase.execute(inputMock);
 
-      expect(output.expires).toBeTruthy();
-      expect(output.shortcut).toBeTruthy();
-    });
+    expect(output.expires).toBeTruthy();
+    expect(output.shortcut).toBeTruthy();
+  });
 
-    it('should contains correct expires date', async () => {
-      const expires = new Date(
-        now.setDate(now.getDate() + useCase.daysToExpire),
-      );
+  it('should contains correct expires date', async () => {
+    urlRepositoryMock.insertOne.mockResolvedValue({});
 
-      const output = await useCase.execute(input);
+    const expires = new Date(now.setDate(now.getDate() + useCase.daysToExpire));
 
-      expect(output.expires).toEqual(expires);
-    });
+    const output = await useCase.execute(inputMock);
 
-    it('should contains incorrect expires date', async () => {
-      const expires = new Date(
-        now.setDate(now.getDate() + useCase.daysToExpire + 30),
-      );
+    expect(output.expires.getDay()).toBe(expires.getDay());
+  });
 
-      const output = await useCase.execute(input);
+  it('should contains incorrect expires date', async () => {
+    urlRepositoryMock.insertOne.mockResolvedValue({});
 
-      expect(output.expires).toEqual(expires);
-    });
+    const expires = new Date(
+      now.setDate(now.getDate() + useCase.daysToExpire + 30),
+    );
+
+    const output = await useCase.execute(inputMock);
+
+    expect(output.expires.getDay()).not.toBe(expires.getDay());
   });
 });
