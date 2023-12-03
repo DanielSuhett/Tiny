@@ -1,7 +1,7 @@
 export class Url {
   id: number;
   owner: number;
-  tiny: string;
+  shortcut: string;
   destiny: string;
   expires: Date;
   createdAt: Date;
