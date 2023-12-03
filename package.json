@@ -64,7 +64,15 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "moduleNameMapper": {
+      "src/(.*)": "<rootDir>/$1"
+    },
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "maxWorkers": "50%"
   }
 }
