@@ -6,5 +6,4 @@ export interface IUrlRepository {
   findOne(id: number): Promise<Url>;
   findMany(query: string): Promise<Url[]>;
   deleteOne(id: number): Promise<boolean>;
-  deleteMany(id: number): Promise<boolean>;
 }
