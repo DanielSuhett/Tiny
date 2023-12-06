@@ -1,10 +1,10 @@
-export interface InputCreateUrlDto {
+export interface InputCreateUrl {
   owner: number;
   destiny: string;
   hash: string;
 }
 
-export interface OutputCreateUrlDto {
+export interface OutputCreateUrl {
   shortcut: string;
   expires: Date;
 }

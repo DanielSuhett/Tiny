@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { CreateUrlUseCase } from './url/create/create.url.usecases';
-import { ReduceDestinyUrlUseCase } from './url/reduce/reduce.url.usecases';
+import { CreateUrlUseCase } from 'src/usecases/url/create/create.url.usecases';
+import { ReduceDestinyUrlUseCase } from 'src/usecases/url/reduce/reduce.url.usecases';
 import { UrlRepository } from 'src/infrastructure/repositories/url.repository';
 import { RepositoriesModule } from 'src/infrastructure/repositories/repositories.module';
 
@@ -19,6 +19,6 @@ import { RepositoriesModule } from 'src/infrastructure/repositories/repositories
       inject: [],
     },
   ],
-  exports: [CreateUrlUseCase],
+  exports: [CreateUrlUseCase.name, ReduceDestinyUrlUseCase.name],
 })
 export class UseCasesModule {}

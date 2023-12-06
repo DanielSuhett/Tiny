@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Url } from 'src/domain/model/url';
 import { IUrlRepository } from 'src/domain/repositories/url.repository.interface';
 import {
-  InputCreateUrlDto,
-  OutputCreateUrlDto,
+  InputCreateUrl,
+  OutputCreateUrl,
 } from 'src/usecases/url/create/create.url.dto';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class CreateUrlUseCase {
 
   readonly daysToExpire = 1;
 
-  async execute(input: InputCreateUrlDto): Promise<OutputCreateUrlDto> {
+  async execute(input: InputCreateUrl): Promise<OutputCreateUrl> {
     const url = new Url();
     const now = new Date();
     const expires = new Date(now.setDate(now.getDate() + this.daysToExpire));

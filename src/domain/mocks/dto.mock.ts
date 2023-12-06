@@ -1,6 +1,6 @@
-import { InputCreateUrlDto } from 'src/usecases/url/create/create.url.dto';
+import { InputCreateUrl } from 'src/usecases/url/create/create.url.dto';
 
-export const inputMock: InputCreateUrlDto = {
+export const inputMock: InputCreateUrl = {
   owner: 1,
   destiny: 'destiny',
   hash: 'hash',

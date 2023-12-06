@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ReduceDestinyUrlUseCase } from './reduce.url.usecases';
+import { ReduceDestinyUrlUseCase } from 'src/usecases/url/reduce/reduce.url.usecases';
 
 describe('reduceDestinyUrlUseCase', () => {
   let useCase: ReduceDestinyUrlUseCase;
