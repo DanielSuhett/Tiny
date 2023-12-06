@@ -6,5 +6,5 @@ export interface InputCreateUrl {
 
 export interface OutputCreateUrl {
   shortcut: string;
-  expires: Date;
+  expiresAt: Date;
 }

@@ -15,19 +15,21 @@ export class CreateUrlUseCase {
   async execute(input: InputCreateUrl): Promise<OutputCreateUrl> {
     const url = new Url();
     const now = new Date();
-    const expires = new Date(now.setDate(now.getDate() + this.daysToExpire));
+    const expires = new Date(
+      new Date().setDate(now.getDate() + this.daysToExpire),
+    );
 
     url.owner = input.owner;
     url.destiny = input.destiny;
     url.shortcut = input.hash;
-    url.expires = expires;
+    url.expiresAt = expires;
     url.createdAt = now;
     url.updatedAt = now;
 
     await this.urlRepository.insertOne(url);
 
     return {
-      expires,
+      expiresAt: url.expiresAt,
       shortcut: url.shortcut,
     };
   }

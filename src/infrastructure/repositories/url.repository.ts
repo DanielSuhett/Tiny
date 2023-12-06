@@ -23,7 +23,7 @@ export class UrlRepository implements IUrlRepository {
     }
 
     return {
-      expires: result.expires,
+      expiresAt: result.expiresAt,
       shortcut: result.shortcut,
     };
   }

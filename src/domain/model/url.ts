@@ -3,7 +3,7 @@ export class Url {
   owner: number;
   shortcut: string;
   destiny: string;
-  expires: Date;
+  expiresAt: Date;
   createdAt: Date;
   updatedAt: Date;
 }
