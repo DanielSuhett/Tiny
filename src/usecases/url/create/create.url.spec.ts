@@ -3,6 +3,8 @@ import { CreateUrlUseCase } from 'src/usecases/url/create/create.url.usecases';
 import { UrlRepository } from 'src/infrastructure/repositories/url.repository';
 import { inputMock, urlRepositoryMock } from 'src/domain/mocks';
 import { RepositoriesModule } from 'src/infrastructure/repositories/repositories.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Url } from 'src/domain/entities/url.entities';
 
 describe('CreateUrlUseCase', () => {
   let useCase: CreateUrlUseCase;
@@ -11,7 +13,18 @@ describe('CreateUrlUseCase', () => {
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      imports: [RepositoriesModule],
+      imports: [
+        TypeOrmModule.forRoot({
+          type: 'sqlite',
+          database: ':memory:',
+          entities: [Url],
+          dropSchema: true,
+          synchronize: true,
+          logging: false,
+        }),
+        TypeOrmModule.forFeature([Url]),
+        RepositoriesModule,
+      ],
       providers: [
         {
           provide: CreateUrlUseCase,
@@ -34,29 +47,29 @@ describe('CreateUrlUseCase', () => {
 
     const output = await useCase.execute(inputMock);
 
-    expect(output.expires).toBeTruthy();
+    expect(output.expiresAt).toBeTruthy();
     expect(output.shortcut).toBeTruthy();
   });
 
   it('should contains correct expires date', async () => {
     urlRepositoryMock.insertOne.mockResolvedValue({});
 
-    const expires = new Date(now.setDate(now.getDate() + useCase.daysToExpire));
-
     const output = await useCase.execute(inputMock);
 
-    expect(output.expires.getDay()).toBe(expires.getDay());
+    const expires = new Date(now.setDate(now.getDate() + useCase.daysToExpire));
+
+    expect(output.expiresAt.getDate()).toBe(expires.getDate());
   });
 
   it('should contains incorrect expires date', async () => {
     urlRepositoryMock.insertOne.mockResolvedValue({});
 
-    const expires = new Date(
-      now.setDate(now.getDate() + useCase.daysToExpire + 30),
-    );
-
     const output = await useCase.execute(inputMock);
 
-    expect(output.expires.getDay()).not.toBe(expires.getDay());
+    const expires = new Date(
+      now.setDate(now.getDate() + useCase.daysToExpire + 1),
+    );
+
+    expect(output.expiresAt.getDate()).not.toBe(expires.getDate());
   });
 });
