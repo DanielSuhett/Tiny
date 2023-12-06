@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
-import { UrlRepository } from './url.repository';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Url } from 'src/domain/entities/url.entities';
+import { UrlRepository } from 'src/infrastructure/repositories/url.repository';
 
 @Module({
-  imports: [],
+  imports: [TypeOrmModule.forFeature([Url])],
   providers: [UrlRepository],
   exports: [UrlRepository],
 })

@@ -1,27 +1,68 @@
-import { OutputCreateUrlDto } from 'src/usecases/url/create/create.url.dto';
-import { Url } from 'src/domain/model/url';
+import { OutputCreateUrl } from 'src/usecases/url/create/create.url.dto';
+import { Url } from 'src/domain/entities/url.entities';
 import { IUrlRepository } from 'src/domain/repositories/url.repository.interface';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
+@Injectable()
 export class UrlRepository implements IUrlRepository {
-  async insertOne(url: Url): Promise<OutputCreateUrlDto> {
+  constructor(
+    @InjectRepository(Url)
+    private userModel: Repository<Url>,
+  ) {}
+
+  async insertOne(url: Url): Promise<OutputCreateUrl | null> {
+    if (!url) {
+      return null;
+    }
+    const result = await this.userModel.save(url);
+
+    if (!result) {
+      return null;
+    }
+
     return {
-      expires: new Date(),
-      shortcut: url.shortcut,
+      expires: result.expires,
+      shortcut: result.shortcut,
     };
   }
 
-  async findOne(id: number): Promise<Url> {
-    const result = new Url();
-    result.id = id;
+  async findOne(id: number): Promise<Url | null> {
+    if (!id) {
+      return null;
+    }
+
+    const result = await this.userModel.findOne({ where: { id } });
+
+    if (!result) {
+      return null;
+    }
+
     return result;
   }
 
-  async findMany(query: string): Promise<Url[]> {
-    const result = new Url();
-    return [result, result];
+  async findMany(field: string, value: string): Promise<Url[]> {
+    if (!field || !value) {
+      return null;
+    }
+
+    const result = await this.userModel.find({ where: { [field]: value } });
+
+    if (!result) {
+      return null;
+    }
+
+    return result;
   }
 
   async deleteOne(id: number): Promise<boolean> {
-    return true;
+    if (!id) {
+      return null;
+    }
+
+    const result = await this.userModel.delete({ id });
+
+    return !!result.affected;
   }
 }
