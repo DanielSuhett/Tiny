@@ -17,16 +17,20 @@ import { RepositoriesModule } from 'src/infrastructure/repositories/repositories
       inject: [UrlRepository],
     },
     {
-      provide: FindUrlUseCase.name,
-      useFactory: (UrlRepository) => new FindUrlUseCase(UrlRepository),
-      inject: [UrlRepository],
-    },
-    {
       provide: ReduceDestinyUrlUseCase.name,
       useFactory: () => new ReduceDestinyUrlUseCase(),
       inject: [],
     },
+    {
+      provide: FindUrlUseCase.name,
+      useFactory: (UrlRepository) => new FindUrlUseCase(UrlRepository),
+      inject: [UrlRepository],
+    },
   ],
-  exports: [CreateUrlUseCase.name, ReduceDestinyUrlUseCase.name],
+  exports: [
+    CreateUrlUseCase.name,
+    ReduceDestinyUrlUseCase.name,
+    FindUrlUseCase.name,
+  ],
 })
 export class UseCasesModule {}

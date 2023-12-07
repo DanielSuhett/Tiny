@@ -22,7 +22,7 @@ describe('FindUrlUseCase', () => {
       ],
       providers: [
         {
-          provide: FindUrlUseCase,
+          provide: FindUrlUseCase.name,
           useFactory: () => new FindUrlUseCase(urlRepositoryMock),
           inject: [],
         },
