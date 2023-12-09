@@ -10,7 +10,11 @@ const pinoConfig = pino({
       colorize: true,
       translateTime: true,
       minimumLevel: 'info',
-      ignore: 'req.headers,res.headers',
+      singleLine: true,
+      ignore:
+        process.env.NODE_ENV != 'production'
+          ? 'req.headers,res.headers,req.params,req.remotePort,req.remoteAddress'
+          : '',
     } as PinoPretty.PrettyOptions,
   },
 });
