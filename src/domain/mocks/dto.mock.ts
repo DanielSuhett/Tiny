@@ -15,7 +15,7 @@ export const InputCreateUrlMock: InputCreateUrl = {
 };
 
 export const InputFindUrlMock: InputFindUrl = {
-  id: 1,
+  shortcut: '1',
 };
 
 export const OutputFindUrlMock: OutputFindUrl = {

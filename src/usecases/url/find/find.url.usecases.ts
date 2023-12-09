@@ -10,10 +10,10 @@ export class FindUrlUseCase {
   constructor(private readonly urlRepository: IUrlRepository) {}
 
   async execute(input: InputFindUrl): Promise<OutputFindUrl | null> {
-    if (!input.id) {
+    if (!input.shortcut) {
       return null;
     }
 
-    return this.urlRepository.findOne(input.id);
+    return this.urlRepository.findOne(input.shortcut);
   }
 }

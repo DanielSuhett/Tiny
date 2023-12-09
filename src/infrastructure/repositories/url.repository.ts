@@ -28,12 +28,12 @@ export class UrlRepository implements IUrlRepository {
     };
   }
 
-  async findOne(id: number): Promise<Url | null> {
-    if (!id) {
+  async findOne(shortcut: string): Promise<Url | null> {
+    if (!shortcut) {
       return null;
     }
 
-    const result = await this.userModel.findOne({ where: { id } });
+    const result = await this.userModel.findOne({ where: { shortcut } });
 
     if (!result) {
       return null;

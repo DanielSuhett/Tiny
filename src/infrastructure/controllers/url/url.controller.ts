@@ -46,9 +46,9 @@ export class UrlController {
     } as InputCreateUrl);
   }
 
-  @Get('/:id')
-  async find(@Param('id', ParseIntPipe) id: number) {
-    const url = await this.findUrlUseCase.execute({ id });
+  @Get('/:shortcut')
+  async find(@Param('shortcut') shortcut: string) {
+    const url = await this.findUrlUseCase.execute({ shortcut });
 
     if (!url) {
       throw new NotFoundException();
