@@ -6,9 +6,12 @@ import { ControllersModule } from 'src/infrastructure/controllers/controllers.mo
 import { Url } from 'src/domain/entities/url.entities';
 import { ConfigModule } from '@nestjs/config';
 import { validate } from 'src/infrastructure/config/config';
+import { LoggerModule } from 'nestjs-pino';
+import { loggerConfig } from 'src/infrastructure/config/logging';
 
 @Module({
   imports: [
+    LoggerModule.forRoot(loggerConfig),
     ConfigModule.forRoot({
       validate,
       validationOptions: {
