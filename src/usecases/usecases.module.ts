@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { CreateUrlUseCase } from 'src/usecases/url/create/create.url.usecases';
 import { ReduceDestinyUrlUseCase } from 'src/usecases/url/reduce/reduce.url.usecases';
 import { FindUrlUseCase } from 'src/usecases/url/find/find.url.usecases';
+import { FindUrlByOwnerUseCase } from 'src/usecases/url/findByOwner/findByOwner.url.usecases';
 
 import { UrlRepository } from 'src/infrastructure/repositories/url.repository';
 import { RepositoriesModule } from 'src/infrastructure/repositories/repositories.module';
@@ -26,11 +27,17 @@ import { RepositoriesModule } from 'src/infrastructure/repositories/repositories
       useFactory: (UrlRepository) => new FindUrlUseCase(UrlRepository),
       inject: [UrlRepository],
     },
+    {
+      provide: FindUrlByOwnerUseCase.name,
+      useFactory: (UrlRepository) => new FindUrlByOwnerUseCase(UrlRepository),
+      inject: [UrlRepository],
+    },
   ],
   exports: [
     CreateUrlUseCase.name,
     ReduceDestinyUrlUseCase.name,
     FindUrlUseCase.name,
+    FindUrlByOwnerUseCase.name,
   ],
 })
 export class UseCasesModule {}

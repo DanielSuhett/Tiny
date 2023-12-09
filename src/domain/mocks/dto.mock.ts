@@ -3,6 +3,10 @@ import {
   InputFindUrl,
   OutputFindUrl,
 } from 'src/usecases/url/find/find.url.dto';
+import {
+  InputFindUrlByOwner,
+  OutputFindUrlByOwner,
+} from 'src/usecases/url/findByOwner/findByOwner.url.dto';
 
 export const InputCreateUrlMock: InputCreateUrl = {
   owner: 1,
@@ -23,3 +27,12 @@ export const OutputFindUrlMock: OutputFindUrl = {
   expiresAt: new Date(),
   updatedAt: new Date(),
 };
+
+export const InputFindByOwnerUrlMock: InputFindUrlByOwner = {
+  owner: 1,
+};
+
+export const OutputFindByOwnerUrlMock: OutputFindUrlByOwner = [
+  { ...OutputFindUrlMock, id: 0 },
+  { ...OutputFindUrlMock, id: 1 },
+];

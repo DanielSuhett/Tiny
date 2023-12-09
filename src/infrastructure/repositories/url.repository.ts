@@ -42,7 +42,10 @@ export class UrlRepository implements IUrlRepository {
     return result;
   }
 
-  async findMany(field: string, value: string): Promise<Url[]> {
+  async findMany(
+    field: string,
+    value: string | number | boolean,
+  ): Promise<Url[]> {
     if (!field || !value) {
       return null;
     }
