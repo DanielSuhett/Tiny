@@ -6,7 +6,6 @@ import {
   InternalServerErrorException,
   NotFoundException,
   Param,
-  ParseIntPipe,
   Post,
 } from '@nestjs/common';
 import { CreateUrlUseCase } from 'src/usecases/url/create/create.url.usecases';

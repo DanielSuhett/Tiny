@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreateUrlUseCase } from 'src/usecases/url/create/create.url.usecases';
-import { UrlRepository } from 'src/infrastructure/repositories/url.repository';
 import {
   TypeOrmOptions,
   InputCreateUrlMock,
