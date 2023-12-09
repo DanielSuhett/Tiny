@@ -26,7 +26,11 @@ export class CreateUrlUseCase {
     url.createdAt = now;
     url.updatedAt = now;
 
-    await this.urlRepository.insertOne(url);
+    const created = await this.urlRepository.insertOne(url);
+
+    if (!created) {
+      throw new Error('Fail to create shortcut');
+    }
 
     return {
       expiresAt: url.expiresAt,
