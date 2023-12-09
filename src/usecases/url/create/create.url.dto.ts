@@ -1,6 +1,5 @@
 export interface InputCreateUrl {
-  owner: number;
-  destiny: string;
+  destiny: strig;
   hash: string;
 }
 

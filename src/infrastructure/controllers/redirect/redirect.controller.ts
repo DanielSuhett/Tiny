@@ -1,3 +1,4 @@
+import { CacheInterceptor } from '@nestjs/cache-manager';
 import {
   Controller,
   Get,
@@ -5,6 +6,7 @@ import {
   NotFoundException,
   Param,
   Redirect,
+  UseInterceptors,
 } from '@nestjs/common';
 import { FindUrlUseCase } from 'src/usecases/url/find/find.url.usecases';
 
@@ -15,6 +17,7 @@ export class RedirectController {
     private readonly findUrlUseCase: FindUrlUseCase,
   ) {}
 
+  @UseInterceptors(CacheInterceptor)
   @Get('/:shortcut')
   @Redirect()
   async find(@Param('shortcut') shortcut: string) {

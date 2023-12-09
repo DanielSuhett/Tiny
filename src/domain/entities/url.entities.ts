@@ -13,9 +13,6 @@ export class Url {
   id: number;
 
   @Column()
-  owner: number;
-
-  @Column()
   shortcut: string;
 
   @Column()

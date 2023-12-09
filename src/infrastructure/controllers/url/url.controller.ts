@@ -14,7 +14,6 @@ import { ReduceDestinyUrlUseCase } from 'src/usecases/url/reduce/reduce.url.usec
 import { CreateUrlDto } from 'src/infrastructure/controllers/url/url.dto';
 import { InputCreateUrl } from 'src/usecases/url/create/create.url.dto';
 import { FindUrlUseCase } from 'src/usecases/url/find/find.url.usecases';
-import { FindUrlByOwnerUseCase } from 'src/usecases/url/findByOwner/findByOwner.url.usecases';
 
 @Controller('url')
 export class UrlController {
@@ -25,13 +24,11 @@ export class UrlController {
     private readonly reduceDestinyUrlUseCase: ReduceDestinyUrlUseCase,
     @Inject(FindUrlUseCase.name)
     private readonly findUrlUseCase: FindUrlUseCase,
-    @Inject(FindUrlByOwnerUseCase.name)
-    private readonly FindUrlByOwnerUseCase: FindUrlByOwnerUseCase,
   ) {}
 
   @Post()
   async create(@Body() body: CreateUrlDto) {
-    const { destiny, owner } = body;
+    const { destiny } = body;
 
     const hash = this.reduceDestinyUrlUseCase.execute(destiny);
 
@@ -41,7 +38,6 @@ export class UrlController {
 
     return await this.createUrlUseCase.execute({
       destiny,
-      owner,
       hash,
     } as InputCreateUrl);
   }
@@ -55,16 +51,5 @@ export class UrlController {
     }
 
     return url;
-  }
-
-  @Get('/owner/:owner')
-  async findByOwner(@Param('owner', ParseIntPipe) owner: number) {
-    const urls = await this.FindUrlByOwnerUseCase.execute({ owner });
-
-    if (!urls || !urls.length) {
-      throw new NotFoundException();
-    }
-
-    return urls;
   }
 }

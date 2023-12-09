@@ -19,7 +19,6 @@ export class CreateUrlUseCase {
       new Date().setDate(now.getDate() + this.daysToExpire),
     );
 
-    url.owner = input.owner;
     url.destiny = input.destiny;
     url.shortcut = input.hash;
     url.expiresAt = expires;
